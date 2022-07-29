@@ -1,0 +1,28 @@
+version: "3"
+services:
+  redis:
+    container_name: YouthCampBackend_Redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "7379:6379"
+    environment:
+      - REDIS_PORT=7379
+      - CONNECT_TIMEOUT=5000
+      - MAX_IDLE=10
+      - MAX_WAIT=-1
+      - MIN_IDLE=5
+
+  YouthCampBackend:
+    container_name: YouthCampBackend
+    build: src
+    image: youth_camp_backend_image
+    ports:
+      - "8888:8888"
+    restart: always
+    depends_on:
+      - redis
+    links:
+      - "redis:redis"
+    environment:
+      - TZ=Asia/Shanghai
