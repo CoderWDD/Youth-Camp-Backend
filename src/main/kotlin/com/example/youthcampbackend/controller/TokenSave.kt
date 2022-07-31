@@ -22,6 +22,16 @@ class TokenSave {
         return redisTemplate.opsForValue().get("clientSecret") ?: "Client Secret not found"
     }
 
+    @PostMapping("/saveClientKey/{clientKey}")
+    fun saveClientKey(@PathVariable clientKey: String) {
+        redisTemplate.opsForValue().set("clientKey", clientKey)
+    }
+
+    @GetMapping("/getClientKey")
+    fun getClientKey(): String {
+        return redisTemplate.opsForValue().get("clientKey") ?: "Client Key not found"
+    }
+
     @PostMapping("/saveAccessToken/{accessToken}/{openId}")
     fun saveAccessToken(@PathVariable(name = "accessToken") accessToken: String, @PathVariable(name = "openId") openId: String) {
         redisTemplate.opsForValue().set("accessToken-$openId", accessToken)
